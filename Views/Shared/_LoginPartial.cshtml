@@ -1,0 +1,37 @@
+@using Microsoft.AspNetCore.Identity
+@using RestaurantReviewSystem.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav ms-auto d-flex align-items-center">
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item me-3">
+            <span class="navbar-text text-dark">
+                👋 Hello, <strong>@UserManager.GetUserName(User)</strong>
+            </span>
+        </li>
+        <li class="nav-item">
+            <form method="post" asp-area="Identity" asp-page="/Account/Logout" class="d-inline">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">
+                    Logout
+                </button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item me-2">
+            <a class="btn btn-outline-primary btn-sm" asp-area="Identity" asp-page="/Account/Register">
+                Register
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-primary btn-sm" asp-area="Identity" asp-page="/Account/Login">
+                Login
+            </a>
+        </li>
+    }
+
+</ul>

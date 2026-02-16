@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Restaurant Review System</h1>
+        <p class="text-muted">Discover, rate, and review your favorite restaurants</p>
+        <a href="@Url.Action("Index", "Restaurants")" class="btn btn-primary btn-lg mt-3">
+            Explore Restaurants
+        </a>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-md-3 mb-4">
+            <div class="p-3 border rounded shadow-sm h-100">
+                <div class="fs-2 mb-2">🍽️</div>
+                <h5 class="fw-semibold">Browse Restaurants</h5>
+                <p class="text-muted small">Find your favorite cuisines and new dining spots.</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="p-3 border rounded shadow-sm h-100">
+                <div class="fs-2 mb-2">⭐</div>
+                <h5 class="fw-semibold">Rate & Review</h5>
+                <p class="text-muted small">Share your experience and read honest reviews.</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="p-3 border rounded shadow-sm h-100">
+                <div class="fs-2 mb-2">📍</div>
+                <h5 class="fw-semibold">Location Info</h5>
+                <p class="text-muted small">Check where each restaurant is located before visiting.</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="p-3 border rounded shadow-sm h-100">
+                <div class="fs-2 mb-2">✏️</div>
+                <h5 class="fw-semibold">Manage Reviews</h5>
+                <p class="text-muted small">Edit or delete your own reviews anytime.</p>
+            </div>
+        </div>
+    </div>
+
+</div>

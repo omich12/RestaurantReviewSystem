@@ -1,0 +1,150 @@
+@model RestaurantReviewSystem.Models.Restaurant
+
+@{
+    ViewData["Title"] = "Restaurant Details";
+}
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>@Model.Name</h1>
+            <p class="text-muted">Created: @Model.CreatedDate.ToString("MMMM dd, yyyy")</p>
+        </div>
+        <div class="col-md-4 text-end">
+            @* Only show Edit/Delete buttons to Admins *@
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+            }
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Restaurant Information</h5>
+                    <p class="card-text">
+                        <strong>📍 Location:</strong> @Model.Location
+                    </p>
+                    <p class="card-text">
+                        <strong>🍽️ Cuisine Type:</strong> @Model.CuisineType
+                    </p>
+                    <p class="card-text">
+                        <strong>⭐ Average Rating:</strong>
+                        <span class="badge bg-info">
+                            @if (Model.AverageRating > 0)
+                            {
+                                @Model.AverageRating.ToString("F2")
+                            }
+                            else
+                            {
+                                <span>No ratings yet</span>
+                            }
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <h2 class="mt-5">Reviews (@Model.Reviews.Count)</h2>
+
+    @if (Model.Reviews.Count > 0)
+    {
+        <div class="table-responsive mb-4">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Author</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var review in Model.Reviews)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@review.User?.UserName</strong>
+                            </td>
+                            <td>
+                                <span class="badge bg-warning text-dark">⭐ @review.Rating</span>
+                            </td>
+                            <td>@review.Comment</td>
+                            <td>
+                                @* Show Edit/Delete buttons only if:
+                                    - User is logged in AND owns the review
+                                    - OR user is Admin *@
+                                @if (User.Identity?.IsAuthenticated == true && (review.UserId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value || User.IsInRole("Admin")))
+                                {
+                                    <a asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id" class="btn btn-sm btn-warning">
+                                        Edit
+                                    </a>
+                                    <a asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" class="btn btn-sm btn-danger">
+                                        Delete
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info mb-4">
+            No reviews yet. Be the first to review this restaurant!
+        </div>
+    }
+
+    @* Show "Add Review" form only if user is logged in *@
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="card bg-light mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">Add a Review</h5>
+            </div>
+            <div class="card-body">
+                <form asp-controller="Reviews" asp-action="Create" method="post">
+                    <input type="hidden" name="RestaurantId" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label for="Rating" class="form-label">Rating (1-5)</label>
+                        <select id="Rating" name="Rating" class="form-select" required>
+                            <option value="">-- Select Rating --</option>
+                            <option value="1">1 - Poor</option>
+                            <option value="2">2 - Fair</option>
+                            <option value="3">3 - Good</option>
+                            <option value="4">4 - Very Good</option>
+                            <option value="5">5 - Excellent</option>
+                        </select>
+                        <span asp-validation-for="Reviews" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Comment" class="form-label">Comment</label>
+                        <textarea id="Comment" name="Comment" class="form-control" rows="4" placeholder="Share your experience..." required></textarea>
+                        <span asp-validation-for="Reviews" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning mt-4" role="alert">
+            <strong>Want to review this restaurant?</strong>
+            <a href="~/Identity/Account/Login" class="alert-link">Login</a> or 
+            <a href="~/Identity/Account/Register" class="alert-link">Register</a> to add your review.
+        </div>
+    }
+</div>

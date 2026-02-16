@@ -1,0 +1,27 @@
+@model RestaurantReviewSystem.Models.Review
+
+@{
+    ViewData["Title"] = "Delete Review";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h3 class="text-danger">Delete Review</h3>
+            <p class="lead">Are you sure you want to delete this review?</p>
+
+            <div class="card bg-danger-light border-danger mb-4">
+                <div class="card-body">
+                    <p><strong>Rating:</strong> <span class="badge bg-warning text-dark">⭐ @Model.Rating</span></p>
+                    <p><strong>Comment:</strong> @Model.Comment</p>
+                </div>
+            </div>
+
+            <form asp-action="Delete" method="post" class="d-inline">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a asp-controller="Restaurants" asp-action="Details" asp-route-id="@Model.RestaurantId" class="btn btn-secondary">No, Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

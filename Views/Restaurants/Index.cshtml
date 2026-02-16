@@ -1,0 +1,84 @@
+@model IEnumerable<RestaurantReviewSystem.Models.Restaurant>
+
+@{
+    ViewData["Title"] = "Restaurants";
+}
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>Restaurants</h1>
+        </div>
+        <div class="col-md-4 text-end">
+            @* Only show "Add New Restaurant" button to Admins *@
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="bi bi-plus-lg"></i> Add New Restaurant
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-info" role="alert">
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Create">Create one now!</a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var restaurant in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@restaurant.Name</h5>
+                            <p class="card-text text-muted mb-3">
+                                <strong>📍 Location:</strong> @restaurant.Location
+                            </p>
+                            <p class="card-text mb-3">
+                                <strong>🍽️ Cuisine:</strong> @restaurant.CuisineType
+                            </p>
+                            <div class="mb-3">
+                                <strong>⭐ Average Rating:</strong>
+                                <span class="badge bg-info">
+                                    @if (restaurant.AverageRating > 0)
+                                    {
+                                        @restaurant.AverageRating.ToString("F2")
+                                    }
+                                    else
+                                    {
+                                        <span>No ratings</span>
+                                    }
+                                </span>
+                            </div>
+                            <p class="text-muted small">
+                                <strong>Reviews:</strong> @restaurant.Reviews.Count
+                            </p>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <a asp-action="Details" asp-route-id="@restaurant.Id" class="btn btn-sm btn-primary">
+                                View Details
+                            </a>
+                            @* Only show Edit/Delete buttons to Admins *@
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@restaurant.Id" class="btn btn-sm btn-warning">
+                                    Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@restaurant.Id" class="btn btn-sm btn-danger">
+                                    Delete
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
