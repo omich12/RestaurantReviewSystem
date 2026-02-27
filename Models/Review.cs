@@ -25,5 +25,7 @@ namespace RestaurantReviewSystem.Models
 
         // Navigation property to ApplicationUser (review author)
         public ApplicationUser? User { get; set; }
+
+        public DateTime ReviewDate { get; set; }
     }
 }

@@ -6,7 +6,12 @@ using RestaurantReviewSystem.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler =
+            System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 // Required for Identity UI and Razor Pages endpoints
 builder.Services.AddRazorPages();
 

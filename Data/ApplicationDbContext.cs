@@ -5,10 +5,10 @@ using RestaurantReviewSystem.Models;
 
 namespace RestaurantReviewSystem.Data
 {
-    /// <summary>
+
     /// Database context for the Restaurant Review System.
     /// Uses IdentityDbContext to include Identity tables (Users, Roles, etc.).
-    /// </summary>
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

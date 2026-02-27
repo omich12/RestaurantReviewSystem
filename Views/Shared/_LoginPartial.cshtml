@@ -3,17 +3,18 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav ms-auto d-flex align-items-center">
+<ul class="navbar-nav d-flex align-items-center">
 
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item me-3">
-            <span class="navbar-text text-dark">
-                👋 Hello, <strong>@UserManager.GetUserName(User)</strong>
+            <span class="navbar-text text-white">
+                👋 Hello, <strong>@(User.IsInRole("Admin") ? "Admin" : "User")</strong>
             </span>
         </li>
         <li class="nav-item">
-            <form method="post" asp-area="Identity" asp-page="/Account/Logout" class="d-inline">
+            <form method="post" asp-controller="Account" asp-action="Logout" class="d-inline">
+                @Html.AntiForgeryToken()
                 <button type="submit" class="btn btn-outline-secondary btn-sm">
                     Logout
                 </button>
@@ -23,12 +24,12 @@
     else
     {
         <li class="nav-item me-2">
-            <a class="btn btn-outline-primary btn-sm" asp-area="Identity" asp-page="/Account/Register">
+            <a class="btn btn-outline-primary btn-sm" asp-controller="Account" asp-action="Register">
                 Register
             </a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-primary btn-sm" asp-area="Identity" asp-page="/Account/Login">
+            <a class="btn btn-primary btn-sm" asp-controller="Account" asp-action="Login">
                 Login
             </a>
         </li>

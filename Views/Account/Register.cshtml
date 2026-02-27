@@ -1,13 +1,13 @@
-@model RestaurantReviewSystem.ViewModels.LoginViewModel
+@model RestaurantReviewSystem.ViewModels.RegisterViewModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
 }
 
 <div class="container mt-5" style="max-width: 420px;">
-    <h2 class="mb-4">Login</h2>
+    <h2 class="mb-4">Register</h2>
 
-    <form asp-action="Login" method="post">
+    <form asp-action="Register" method="post">
         @Html.AntiForgeryToken()
 
         <div class="mb-3">
@@ -22,12 +22,13 @@
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
 
-        <div class="form-check mb-3">
-            <input asp-for="RememberMe" class="form-check-input" />
-            <label asp-for="RememberMe" class="form-check-label"></label>
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Login</button>
+        <button type="submit" class="btn btn-primary w-100">Create Account</button>
     </form>
 </div>
 
